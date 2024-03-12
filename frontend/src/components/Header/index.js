@@ -4,14 +4,10 @@ export default function Header() {
   return (
     <>
       <nav className="nav-container">
-        <div className="logo-container">
-            
-        </div>
+        <div className="logo-container"></div>
         <div className="header-links">
           <ul>
-            <li>
-
-            </li>
+            <li>Logout</li>
           </ul>
         </div>
       </nav>

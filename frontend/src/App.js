@@ -1,18 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
 import "./App.css";
-import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
-
+import { Route, Switch } from "react-router-dom";
+import RegisterForm from "./components/Register";
+import LoginForm from "./components/Login";
+import Header from "./components/Header";
 
 const App = () => (
   <>
     <Header />
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/register" component={Register} />
-      <Route component={NotFound} />
+      <Route exact path="/login" component={LoginForm} />
+      <Route exact path="/register" component={RegisterForm} />
+      {/* <Route component={NotFound} /> */}
     </Switch>
   </>
 );
