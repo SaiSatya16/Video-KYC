@@ -4,9 +4,9 @@
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #f0f0f0;
+    background-color: #2c3e50; /* Midnight Blue */
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(44, 62, 80, 0.3);
   }
   
   .register-form {
@@ -16,31 +16,55 @@
   
   h2 {
     text-align: center;
-    color: #333;
+    color: #ecf0f1; /* Clouds */
   }
   
   label {
     margin-bottom: 6px;
-    color: #555;
+    color: #ecf0f1;
+  }
+  
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
   }
   
   input {
-    padding: 8px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #3498db; /* Belize Hole */
+    border-radius: 6px;
+    color: #2c3e50; /* Midnight Blue */
+    margin-right: 8px;
   }
   
   button {
-    padding: 10px;
-    background-color: #4caf50;
-    color: #fff;
+    padding: 12px;
+    background-color: #e74c3c; /* Alizarin */
+    color: #ecf0f1;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
   }
   
   button:hover {
-    background-color: #45a049;
+    background-color: #c0392b; /* Pomegranate */
+  }
+  
+  /* Additional styling for OTP input (visible only after clicking Get OTP) */
+  div[style="display: none;"] {
+    margin-bottom: 12px;
+  }
+
+  .getOtpButtonEdit{
+    margin-left: 15px;
+  }
+
+  .input-edit{
+    margin:10px;
+    display: flex;
+    flex-direction: column;
+    
   }
   
