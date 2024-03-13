@@ -1,203 +1,103 @@
-<<<<<<< HEAD
-import './index.css'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./index.css"; // Adjust the file name based on your preference
+import RegisterForm from "../Register";
+import LanguageContext from "../../context/LanguageContext";
 
-const languageOptions = [
-  {id: 1, value: 'EN', language: 'English'},
-  {id: 2, value: 'HI', language: 'हिंदी'},
-  {id: 3, value: 'TE', language: 'తెలుగు'},
-]
+const landingSectionContent = {
+  EN: {
+    login: 'Login',
+    mobileNumber:
+      'Mobile Number',
+    notRegistered:'New user?Register',
+    otp:"OTP:",
+  },
+  HI: {
+    login: 'लॉग इन',
+    mobileNumber:
+      'मोबाइल नंबर',
+    notRegistered:'नया उपयोगकर्ता? पंजीकरण करें',
+    otp:'ओ.टी.पी :',
+  },
+  TE: {
+    login: 'ప్రవేశించండి',
+    mobileNumber:
+      'మొబైల్ నంబర్',
+    notRegistered:'కొత్త యూజర్?రిజిస్టర్ చేసుకోండి',
+    otp:'OTP:',
+  },
+}
 
-const Header = props => {
-  const {activeLanguage, changeLanguage} = props
-
-  const onChangeLanguage = event => {
-    changeLanguage(event.target.value)
+const LoginForm = props => {
+  const getLandingSectionData = activeLanguage => {
+    switch (activeLanguage) {
+      case 'EN':
+        return landingSectionContent.EN
+      case 'HI':
+        return landingSectionContent.HI
+      case 'TE':
+        return landingSectionContent.TE
+      default:
+        return null
+    }
   }
+  const {activeLanguage} = props
+  const {login,mobileNumber,notRegistered,otp} = getLandingSectionData(activeLanguage)
+  const [formData, setFormData] = useState({
+    mobileNumber: "",
+    otp: "",
+  });
 
-  return (
-    <nav className="nav-header">
-      <img
-        className="website-logo"
-        src="https://assets.ccbp.in/frontend/react-js/windows-logo-img.png"
-        alt="website logo"
-      />
-      <select
-        className="language-dropdown"
-        value={activeLanguage}
-        onChange={onChangeLanguage}
-      >
-        {languageOptions.map(eachOption => (
-          <option key={eachOption.id} value={eachOption.value}>
-            {eachOption.language}
-          </option>
-        ))}
-      </select>
-    </nav>
-  )
-}
-
-export default Header
-=======
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
-function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Login form submitted:", formData);
+    // Add logic for login authentication, e.g., sending data to a server
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Online KYC
-          </Typography>
+    <div className="login-container">
+      <h2>{login}</h2>
+      <form onSubmit={handleSubmit} className="login-form">
+        {/* Mobile Number Input */}
+        <label htmlFor="mobileNumber">{mobileNumber}</label>
+        <input
+          type="tel"
+          id="mobileNumber"
+          name="mobileNumber"
+          value={formData.mobileNumber}
+          onChange={handleInputChange}
+          pattern="[0-9]{10}" // Assuming 10-digit mobile number
+          required
+        />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Online KYC
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+        {/* OTP Input */}
+        <label htmlFor="otp">{otp}</label>
+        <input
+          type="text"
+          id="otp"
+          name="otp"
+          value={formData.otp}
+          onChange={handleInputChange}
+          maxLength="6"
+          required
+        />
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+        {/* Submit button */}
+        <button type="submit">{login}</button>
+      </form>
+
+      {/* Link to RegisterForm */}
+      <Link to="/register">{notRegistered}</Link>
+    </div>
   );
-}
-export default Header;
->>>>>>> 277980d9f27f8dd5027da75093d784f783e7d341
+};
+
+export default LoginForm;
