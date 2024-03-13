@@ -1,21 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import RegisterForm from "./components/Register";
 import LoginForm from "./components/Login";
 import Header from "./components/Header";
+import Home from "./components/Home";
 
 const App = () => (
-  <>
+  <BrowserRouter>
     <Header />
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/login" component={LoginForm} />
-      <Route exact path="/register" component={RegisterForm} />
+    <Routes>
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="/login" element={<LoginForm />} />
+      <Route exact path="/register" element={<RegisterForm />} />
       {/* <Route component={NotFound} /> */}
-    </Switch>
-  </>
+    </Routes>
+  </BrowserRouter>
 );
 
 export default App;
