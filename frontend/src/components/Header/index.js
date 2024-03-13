@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Aadhaar KYC", "Loan KYC", "Status"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
@@ -39,7 +39,7 @@ function Header() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          
           <Typography
             variant="h6"
             noWrap

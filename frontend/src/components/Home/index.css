@@ -1,14 +1,35 @@
 .home-container {
-  padding: 20px;
+  background-color: #fff;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  min-height: 100vh;
 }
-
+.checkpoints {
+  background-color: whitesmoke;
+  margin-right: 20px;
+  min-width: 20% !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+}
 .form-container {
   display: flex;
   flex-direction: column;
+  padding: 20px;
 }
 
-.input-field-style {
-  width: 50%;
+
+
+.kyc-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 75%;
+}
+
+.instruction-list {
+  display: flex;
+  flex-direction: column;
 }
