@@ -30,8 +30,8 @@ class LoginForm extends Component {
   render() {
     return (
       <div className="login-container">
-        <h2>Login</h2>
         <form onSubmit={this.handleSubmit} className="login-form">
+          <h2>Login</h2>
           {/* Mobile Number Input */}
           <label htmlFor="mobileNumber">Mobile Number:</label>
           <input
