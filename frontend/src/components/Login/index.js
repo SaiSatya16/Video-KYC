@@ -1,70 +1,176 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import React, { useState } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import "./index.css"; // Adjust the file name based on your preference
+
+// import RegisterForm from "../Register";
+
+// function LoginForm() {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const navigate = useNavigate();
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     if (name === "email") {
+//       setEmail(value);
+//     } else if (name === "password") {
+//       setPassword(value);
+//     }
+//   };
+
+//   const onSubmitSuccess = () => {
+//     navigate("/");
+//   };
+
+//   const submitForm = async (event) => {
+//     event.preventDefault();
+//     const userDetails = { email, password };
+//     const url = "http://127.0.0.1:5000/user-login";
+//     const options = {
+//       method: "POST",
+//       headers: {
+//         "Content-type": "application/json",
+//       },
+//       body: JSON.stringify(userDetails),
+//     };
+//     const response = await fetch(url, options);
+//     const data = await response.json();
+//     if (response.ok === true) {
+//       const authToken = data.token; // Assuming the token is returned in the 'token' field of the response
+//       const username = data.username;
+//       localStorage.setItem("authToken", authToken); // Store the token in local storage
+//       localStorage.setItem("username", username);
+//       onSubmitSuccess();
+//       console.log(data);
+//     }
+//   };
+
+//   return (
+//     <div className="login-container">
+//       <form onSubmit={submitForm} className="login-form">
+//         <h2>Login</h2>
+//         {/* Email Input */}
+//         <label htmlFor="email">Email:</label>
+//         <input
+//           type="email"
+//           id="email"
+//           name="email"
+//           value={email}
+//           onChange={handleInputChange}
+//           required
+//         />
+
+//         {/* Password Input */}
+//         <label htmlFor="password">Password:</label>
+//         <input
+//           type="password"
+//           id="password"
+//           name="password"
+//           value={password}
+//           onChange={handleInputChange}
+//           required
+//         />
+
+//         {/* Submit button */}
+//         <button type="submit">Login</button>
+//       </form>
+
+//       {/* Link to RegisterForm */}
+//       <Link to="/register">New user? Register</Link>
+//     </div>
+//   );
+// }
+
+// export default LoginForm;
+
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./index.css"; // Adjust the file name based on your preference
+
 import RegisterForm from "../Register";
 
-class LoginForm extends Component {
-  state = {
-    formData: {
-      mobileNumber: "",
-      otp: "",
-    },
-  };
+function LoginForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  handleInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    this.setState({
-      formData: {
-        ...this.state.formData,
-        [name]: value,
+    if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
+  };
+
+  const onSubmitSuccess = () => {
+    console.log("Navigation successful");
+    navigate("/");
+  };
+
+  const submitForm = async (event) => {
+    event.preventDefault();
+    const userDetails = { email, password };
+    const url = "http://127.0.0.1:5000/user-login";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
       },
-    });
+      body: JSON.stringify(userDetails),
+    };
+    const response = await fetch(url, options);
+    const data = await response.json();
+    console.log("Response:", response);
+    if (response.ok === true) {
+      const authToken = data.token; // Assuming the token is returned in the 'token' field of the response
+      const username = data.username;
+      // localStorage.setItem("authToken", authToken); // Store the token in local storage
+      // localStorage.setItem("username", username);
+      Cookies.set("authToken", authToken, { expires: 1 });
+      Cookies.set("username", username, { expires: 1 });
+      onSubmitSuccess();
+      console.log(data);
+    } else {
+      console.log("Login failed");
+    }
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login form submitted:", this.state.formData);
-    // Add logic for login authentication, e.g., sending data to a server
-  };
+  return (
+    <div className="login-container">
+      <form onSubmit={submitForm} className="login-form">
+        <h2>Login</h2>
+        {/* Email Input */}
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={handleInputChange}
+          required
+        />
 
-  render() {
-    return (
-      <div className="login-container">
-        <form onSubmit={this.handleSubmit} className="login-form">
-          <h2>Login</h2>
-          {/* Mobile Number Input */}
-          <label htmlFor="mobileNumber">Mobile Number:</label>
-          <input
-            type="tel"
-            id="mobileNumber"
-            name="mobileNumber"
-            value={this.state.formData.mobileNumber}
-            onChange={this.handleInputChange}
-            pattern="[0-9]{10}" // Assuming 10-digit mobile number
-            required
-          />
+        {/* Password Input */}
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={password}
+          onChange={handleInputChange}
+          required
+        />
 
-          {/* OTP Input */}
-          <label htmlFor="otp">OTP:</label>
-          <input
-            type="text"
-            id="otp"
-            name="otp"
-            value={this.state.formData.otp}
-            onChange={this.handleInputChange}
-            maxLength="6"
-            required
-          />
+        {/* Submit button */}
+        <button type="submit">Login</button>
+      </form>
 
-          {/* Submit button */}
-          <button type="submit">Login</button>
-        </form>
-
-        {/* Link to RegisterForm */}
-        <Link to="/register">New user? Register</Link>
-      </div>
-    );
-  }
+      {/* Link to RegisterForm */}
+      <Link to="/register">New user? Register</Link>
+    </div>
+  );
 }
 
 export default LoginForm;
