@@ -18,21 +18,22 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+const videoConstraints = {
+  width: 1920,
+  height: 1080,
+  facingMode: "user",
+};
+
 export default class Home extends Component {
+  webcamRef = React.createRef();
   state = {
     isInstructionsRead: false,
     activeStep: 0,
     uploadedFile: null,
-    capturedPhoto: null,
+    capturedUserPhoto: null,
+    capturedPAN: null,
     mediaStream: null,
-  };
-
-  webcamRef = React.createRef();
-
-  capturePhoto = () => {
-    const imageSrc = this.webcamRef.current.getScreenshot();
-    // Use the captured photo as needed (e.g., display it, upload it, etc.)
-    console.log(imageSrc);
+    webcamFrozen: false,
   };
 
   handleInstructionsClose = () => {
@@ -149,16 +150,96 @@ export default class Home extends Component {
   }
 
   secondStep() {
+    const { capturedUserPhoto, webcamFrozen } = this.state;
+
+    const handleCapturePhoto = () => {
+      const imageSrc = this.webcamRef.current.getScreenshot();
+      this.setState({ capturedUserPhoto: imageSrc, webcamFrozen: true });
+    };
+
+    const handleRetakePhoto = () => {
+      this.setState({ capturedUserPhoto: null, webcamFrozen: false });
+    };
+
     return (
       <form className="form-container">
-        <Webcam ref={this.webcamRef} />
-        <button onClick={this.capturePhoto}>Capture Photo</button>
-        {this.state.capturedPhoto && (
-          <div>
-            <h2>Captured Photo:</h2>
-            <img src={this.state.capturedPhoto} alt="Captured" />
-          </div>
-        )}
+        <h1>User capture</h1>
+        <div className="webcam-container">
+          <Webcam
+            ref={this.webcamRef}
+            audio={false}
+            height={600}
+            screenshotFormat="image/jpeg"
+            width={700}
+            videoConstraints={videoConstraints}
+            screenshotQuality={1}
+            video={webcamFrozen ? undefined : true}
+          />
+        </div>
+        <div>
+          {!capturedUserPhoto && (
+            <button onClick={handleCapturePhoto}>Capture Photo</button>
+          )}
+          {capturedUserPhoto && (
+            <>
+              <img src={capturedUserPhoto} alt="Captured" />
+              <div>
+                <button onClick={handleRetakePhoto}>Retake Photo</button>
+              </div>
+            </>
+          )}
+        </div>
+        <Button
+          variant="contained"
+          onClick={this.handleNext}
+          style={{ width: "130px", marginTop: "10px" }}
+        >
+          Save & Next
+        </Button>
+      </form>
+    );
+  }
+
+  thirdStep() {
+    const { capturedPAN, webcamFrozen } = this.state;
+
+    const handleCapturePhoto = () => {
+      const imageSrc = this.webcamRef.current.getScreenshot();
+      this.setState({ capturedPAN: imageSrc, webcamFrozen: true });
+    };
+
+    const handleRetakePhoto = () => {
+      this.setState({ capturedPAN: null, webcamFrozen: false });
+    };
+
+    return (
+      <form className="form-container">
+        <h1>PAN Card Capture</h1>
+        <div className="webcam-container">
+          <Webcam
+            ref={this.webcamRef}
+            audio={false}
+            height={600}
+            screenshotFormat="image/jpeg"
+            width={700}
+            videoConstraints={videoConstraints}
+            screenshotQuality={1}
+            video={webcamFrozen ? undefined : true}
+          />
+        </div>
+        <div>
+          {!capturedPAN && (
+            <button onClick={handleCapturePhoto}>Capture Photo</button>
+          )}
+          {capturedPAN && (
+            <>
+              <img src={capturedPAN} alt="Captured" />
+              <div>
+                <button onClick={handleRetakePhoto}>Retake Photo</button>
+              </div>
+            </>
+          )}
+        </div>
         <Button
           variant="contained"
           onClick={this.handleNext}
@@ -176,6 +257,8 @@ export default class Home extends Component {
         return this.firstStep();
       case 1:
         return this.secondStep();
+      case 2:
+        return this.thirdStep();
       default:
         return null;
     }
@@ -199,10 +282,10 @@ export default class Home extends Component {
                 <StepLabel>Personal Details</StepLabel>
               </Step>
               <Step style={{ marginRight: "30px" }}>
-                <StepLabel>step2</StepLabel>
+                <StepLabel>User authentication</StepLabel>
               </Step>
               <Step style={{ marginRight: "30px" }}>
-                <StepLabel>step3</StepLabel>
+                <StepLabel>PAN authentication</StepLabel>
               </Step>
               <Step style={{ marginRight: "30px" }}>
                 <StepLabel>step4</StepLabel>
